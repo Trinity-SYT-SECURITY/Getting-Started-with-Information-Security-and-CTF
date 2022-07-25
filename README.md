@@ -267,7 +267,9 @@ Linux 登入的時候實際上有兩個身份,一個是登入者(user)另一是�
 
 #### Other
 Home Directory: 帳號的家目錄。
+
 Shell: 帳號使用的 shell
+
 ![](https://i.imgur.com/1gSjfdM.png)
 ```
 root:x:0:0:root:/root:/bin/bash
@@ -290,15 +292,21 @@ Linux grep 命令用於查找文件裡符合條件的字符串。
 grep 指令用於查找內容包含指定的範本樣式的文件，如果發現某文件的內容符合所指定的範本樣式，預設grep 指令會把含有範本樣式的那一列顯示出來。若不指定任何文件名稱，或是所給予的文件名為-，則grep 指令會從標準輸入設備讀取數據。
 
 ![](https://i.imgur.com/WqAT0kY.png)
+
 例如在 /etc/os-release 檔案中搜尋 kali 關鍵字
+
 ![](https://i.imgur.com/BXXvh4y.png)
+
 執行的結果會列出所有含有關鍵字的整行文字。
 
 grep 亦可搭配萬用字元（*）同時搜尋多個檔案，例如在 /etc/ 目錄之下所有 *.conf 檔案中，尋找 network 這個字眼：
+
 ![](https://i.imgur.com/0GNt5Y6.png)
+
 搜尋多個檔案時，在輸出中會標示資料來源是哪一個檔案。
 
 除了搜尋檔案內容之外，亦可搭配管線（pipe）篩選串流資料，例如篩選出含有 network 關鍵字的檔案名稱：
+
 ![](https://i.imgur.com/X8Qg3eh.png)
 
 [參考資料](https://www.runoob.com/linux/linux-comm-grep.html)
@@ -340,129 +348,280 @@ head指令會讀取所給予檔案的內容，並將其內容的最前面部份�
 `head -c 200 fileA`
 
 #### tail
+tail 命令可用於查看文件的內容，有一個常用的參數-f常用於查閱正在改變的日誌文件。
+
+tail -f filename會把filename 文件裡的最尾部的內容顯示在屏幕上，並且不斷刷新，只要filename 更新就可以看到最新的文件內容。
+
 看該檔案尾部
 ![](https://i.imgur.com/g0JM80F.png)
+
 常用方式:
--n N:顯示最後 N 行的訊息 (大寫N 為數字)
--f:持續讀取檔案，直到按 Ctrl + c 為止 (可觀察檔案持續更新的內容)
+
++ `-n` N:顯示最後 N 行的訊息 (大寫N 為數字)
++ `-f`:持續讀取檔案，直到按 Ctrl + c 為止 (可觀察檔案持續更新的內容)
+
+[參考資料](https://www.runoob.com/linux/linux-comm-tail.html)
+
 ### find 
+find 的 -type 參數可以指定檔案的類型，常用的選項有：
+
++ `d`：目錄。
++ `p`：具名的 pipe（FIFO）。
++ `f`：一般的檔案。
++ `l`：連結檔，如果與 -L 或 -follow 參數同時使用時，就只會搜尋到有問題的連結檔，如果想要與 -L 同時使用，請改用 -xtype。
++ `s`：socket 檔案。
+
 指定檔名搜尋
+
 搜尋時是以整個硬碟裡的資料為主
-![](https://i.imgur.com/ctS9zlM.png)
-### 搜尋
-#### locate 
+
+[參考資料](https://blog.gtwang.org/linux/unix-linux-find-command-examples/)
+
+## 搜尋
+### locate 
+Linux locate命令用於查找符合條件的文檔，他會去保存文檔和目錄名稱的數據庫內，查找合乎範本樣式條件的文檔或目錄。
+
+一般情況我們只需要輸入locate your_file_name即可查找指定文件。
+
 搜尋時是以資料庫檔案裡的資料為主
-##### 尋找檔案
-使用 locate 快速尋找系統上的檔案，例如尋找含有 .bashrc 關鍵字的檔案
+
+locate 與find 不同: find 是去硬盤找，locate 只在/var/lib/slocate 資料庫中找。
+
+locate 的速度比find 快，它並不是真的查找，而是查數據庫，一般文件數據庫在/var/lib/slocate/slocate.db 中，所以locate 的查找並不是實時的，
+
+[參考資料](https://www.runoob.com/linux/linux-comm-locate.html)
+
+#### 尋找檔案
+
+使用 `locate` 快速尋找系統上的檔案，例如尋找含有 `.bashrc` 關鍵字的檔案
+
 ![](https://i.imgur.com/3Sq1QAr.png)
-##### 計算數量
-若要計算符合條件的檔案數量，可以加上 -c
+
+#### 計算數量
+
+若要計算符合條件的檔案數量，可以加上 `-c`
+
 ![](https://i.imgur.com/iy0hV4x.png)
-##### 大小寫
+
+#### 大小寫
+
 locate 在比對檔案時，預設會區分英文字母的大小寫，若不要區分大小寫，可以加上 -i
+
 ![](https://i.imgur.com/LHrKEgT.png)
 
-#### whereis 
-通常是用來尋找『特定檔案』
-搜尋時是以資料庫檔案裡的資料為主
-用於查找二進位文件、原始碼文件和man手冊，一般文件的定位使用locate命令
-![](https://i.imgur.com/lNok4zh.png)
+### whereis 
+該指令會在特定目錄中查找符合條件的文件。這些文件應屬於原始代碼、二進製文件，或是幫助文件。
 
-#### which 
+該指令只能用於查找二進製文件、源代碼文件和man手冊頁，一般文件的定位需使用locate命令。
+
+![](https://i.imgur.com/lNok4zh.png)
+[參考資料](https://www.runoob.com/linux/linux-comm-whereis.html)
+
+### which 
+Linux which命令用於查找文件。
+
+which指令會在環境變量$PATH設置的目錄裡查找符合條件的文件。
+
 通常都是用來尋找『執行檔』
-which指令會在環境變數PATH設置的目錄裡查詢符合條件的文件
+
 ![](https://i.imgur.com/9sU78fF.png)
 
+[資料參考](https://www.runoob.com/linux/linux-comm-which.html)
 
-比較:http://blog.faq-book.com/?p=1013
+## 解壓縮
+![image](https://user-images.githubusercontent.com/96654161/180784999-1171547e-b596-4052-b3d7-1690ecbe8a8f.png)
+[參考資料](https://michael-hsu.medium.com/linux-%E5%A3%93%E7%B8%AE%E8%88%87%E6%89%93%E5%8C%85%E6%8C%87%E4%BB%A4-tar-zip-gz-bz2-xz-77ab131c2cc3)
+
 ### tar 
-.tar (僅打包，無壓縮)
-打包：
-$ tar cvf FileName.tar DirName路徑名稱
-解包：
-$ tar xvf FileName.tar
+tar 是用來建立，還原備份文件的工具程序，它可以加入，解開備份文件內的文件。
+
+# 打包當前資料夾下所有檔案 
+$ tar cvf example.tar . 
+# 解包 
+$ tar xvf example.tar
+[資料參考](https://www.runoob.com/linux/linux-comm-tar.html)
+
 ### wget 
 wget 是一個自動檔案下載工具，在大部份的 Linux 系統上都會內建這個指令，其支援各式各樣的下載方式
-#### 基本下載檔案
+
++ -t0: 設定重試次數。當連結中斷或超時，wget會重新連接。-t0代表把重試次數設為無窮多。
++ -c:  設定續傳功能。
++ -nH: 不建立該網站名稱的子目錄 /example.com/，而直接在當前目錄下建立鏡像的目錄結構。
++ -np: 不遍歷父目錄，如果有連結連到目標資料夾的parent或其他目錄，不下載。
++ -m:  鏡像，相當同時使用-r和-N。
++ -r:  遞迴下載，把文件中所有的連結都下載回來。
++ -N:  下載時檢查timestamp，只下載有更新的文件，如果檔案大小和最修改日期都一樣就不下載。
++ -P:  指定下載到本機的某個目錄下。
+
+GNU Wget是一個命令行程序，用於從Web下載文件。Wget可以讓您可以使用HTTP，HTTPS和FTP協議下載文件。
+
+wget提供了許多選項，允許您下載多個文件，恢復下載，限制速度，遞歸下載，在後台下載，鏡像網站等等。
+
+wget命令現已預先安裝在大多數Linux發行版上。要檢查
+
+[資料參考](https://www.myfreax.com/usage-of-the-linux-wget-command/)
+
+
+### 基本下載檔案
+
 ![](https://i.imgur.com/OPcA5rw.png)
-#### 指定儲存的檔名
+
+### 指定儲存的檔名
+
 ![](https://i.imgur.com/JTYgBer.png)
-#### 從檔案中讀取網址
+
+### 從檔案中讀取網址
+
 ![](https://i.imgur.com/Ismewi2.png)
 
 ### ifconfig 
-#### 基本網路介面
+### 基本網路介面
+
 執行 ifconfig 指令不帶任何參數，可以顯示目前主機上已經啟用的網路介面
+
+ifconfig 主要是可以觀察與修改網路介面的相關參數，可以修改的參數很多，包括IP參數以及MTU等等都可以修改。
+
+ifconfig 可以設置網絡設備的狀態，顯示當前的設置。
+
 ![](https://i.imgur.com/X6RAjpz.png)
+
 若要查看主機上所有的網路介面（包含未啟用的網路介面），可以加上 -a 參數(本環境已全部啟用)
+
 若要讓 ifconfig 僅顯示簡略的資訊，可以採用 -s 參數
+
 ![](https://i.imgur.com/eRsu0tw.png)
-#### 設定網路 IP 位址、遮罩
+
+### 設定網路 IP 位址、遮罩
 ifconfig 指令也可以用來設定網路介面的 IP 位址與網路遮罩，系統管理者在測試或除錯時很常使用。
 
 ifconfig 設定網路介面 IP 位址與遮罩的語法為：
 
 ifconfig 網路介面 IP位址 netmask 遮罩
+
 例如將 eth0 網路介面的 IP 位址從10.0.2.15設定為192.168.0.100，網路遮罩設定為 255.255.255.0，則可執行
+
 ![](https://i.imgur.com/v82x6aM.png)
-(範例而已)
-### netstat
+
+## netstat
+Linux netstat 命令用於顯示網絡狀態。
+
+netstat 指令可以讓你了解整個 Linux 系統的網絡情況。
+
 Linux 的 netstat 指令可以用來查詢各種網路相關資訊，檢測各種網路相關的問題。
 
 在 Linux 系統中若要檢查網路相關的問題，netstat 是一個很常使用到的指令之一，雖然他只能在本機執行，但是他可以列出非常多很有用的資訊，像 socket、TCP、UDP、IP 與 ethernet 層的各種資訊都可以利用 netstat 來查詢。
+
 列出所有連接埠（Port）
+
 ![](https://i.imgur.com/3SA1zsd.png)
+
 僅列出 TCP 的連接埠：
-netstat -at
+
+`netstat -at`
+
 僅列出 UDP 的連接埠：
-netstat -au
-### 列出 Listening 狀態的連接埠
+
+`netstat -au`
+
+## 列出 Listening 狀態的連接埠
+
 列出所有 listening 狀態的連接埠：
-netstat -l
+
+`netstat -l`
+
 列出所有 listening 狀態的 TCP 連接埠：
-netstat -lt
+
+`netstat -lt`
+
 列出所有 listening 狀態的 UDP 連接埠：
-netstat -lu
+
+`netstat -lu`
+
 ### 統計數據
+
 列出各種協定的統計數據：
-netstat -s
+
+`netstat -s`
+
 列出 TCP 的統計數據：
-netstat -st
+
+`netstat -st`
+
 列出 UDP 的統計數據：
-netstat -su
+
+`netstat -su`
+
 如果要顯示應詳細的統計數據，可以再加上 -w 參數：
-netstat -sw
-### ps 
-#### 介紹
+
+`netstat -sw`
+
+## ps 
+### 介紹
 在Linux中我們可以使用ps指令(Process status)來觀察行程(Process)的資訊，當ps指令不加任何選項時，只會顯示該使用者在當次登入時的資訊：
+
 ![](https://i.imgur.com/8MvnC50.png)
+
 PPID:PPID全名是Parent Process ID，是父行程編號代表該行程編號。
+
 ![](https://i.imgur.com/scofZer.png)
+
 上圖第二行代表的資訊是ps -f行程，這個行程是由bash行程(PID 312)衍生出來的子行程(PPID 312)，我們可以通常說bash是ps -f的父行程。
 
 ps也可以查看系統行程，我們可以ps指令加上aux選項查看系統行程。
+
 ![](https://i.imgur.com/aaod44Z.png)
+
 欄位說明
+
 ![](https://i.imgur.com/L2JqGDh.png)
-#### 優先權(nice value)
-在Linux中行程有優先權的設計，順序以-20至19表示，這個數字稱為nice值(nice value)，數字越小表示該行程擁有的優先權越高，數字越大則優先權越低。
+
+[參考資料](https://david50.pixnet.net/blog/post/45224451-%5B%E7%AD%86%E8%A8%98%5Dlinux%E6%8C%87%E4%BB%A4-ps(process-status))
+
+### 優先權(nice value)
+在 Linux 中每個執行中的程式都會有一個 niceness 值，系統的 scheduler 在對每個行程在排程時，就會參考這個數值來決定執行的先後順序，niceness 可用的數值從 -20（最高優先權）到 19（最低優先權），數值越小代表執行優先權越高。
+
 我們可使用"l"參數查看nice值
+
 ![](https://i.imgur.com/PKohyPQ.png)
-### kill刪除程序
+[資料參考](https://blog.gtwang.org/linux/linux-nice-scheduling-priority/)
+
+## kill刪除程序
+
 kill能將目前運作的行程刪除，當kill指令送出訊號收到訊號的行程將依本身訊號值決定是否結束，能否結束還要看行程本身
-#### 若要強制結束可使用語法
+
+Linux kill 命令用於刪除執行中的程序或工作。
+
+kill 可將指定的信息送至程序。預設的信息為 SIGTERM(15)，可將指定程序終止。若仍無法終止該程序，可使用 SIGKILL(9) 信息嘗試強制刪除程序。程序或工作的編號可利用 ps 指令或 jobs 指令查看。
+[資料參考](https://www.runoob.com/linux/linux-comm-kill.html)
+
+### 若要強制結束可使用語法
+
 kill PID
-#### 使用行程名稱刪除正在執行的行程 
+
+### 使用行程名稱刪除正在執行的行程 
+
 有時同一程式會同時執行好幾個行程，若使用kill一個一個刪實在太慢也太麻煩了，此時可以使用killall將相同名稱的行桯一次刪除。
+
 語法：killall 行程名稱
-### htop 
-htop 是另外一個監控工具，他可以顯示每個程式完整的執行參數，或以行程樹（process tree）的方式顯示，若要管理多個行程時，也可以一次選擇多個行程批次處理
+
+## htop 
+htop 是另外一個類似 top 的監控工具，它的功能與操作介面比 top 更完整，可以顯示每個程式完整的執行參數，或以行程樹（process tree）的方式顯示，若要管理多個行程時，也可以一次選擇多個行程批次處理。
+![image](https://user-images.githubusercontent.com/96654161/180788000-835918d7-0099-4a16-a776-7d42ab8609d7.png)
+
 kali裡預設沒有安裝，需要安裝才能使用
+
 sudo apt-get install htop
+
 ![](https://i.imgur.com/IWqclQO.png)
+
 執行 htop 指令之後就會開啟監控畫面
+
 ![](https://i.imgur.com/z64hTkE.png)
+
 可以看到每個 CPU 的使用率(6核心16G記憶體)
-![](https://i.imgur.com/uWqOcQl.png)https://hackmd.io/KoZmL1CvRKmL5ftEDoHgKQ?both#%E5%84%AA%E5%85%88%E6%AC%8Anice-value
+
+![](https://i.imgur.com/uWqOcQl.png)
+
 而中間的部份，我們可以使用方向鍵（上、下、左、右）來查看系統上每個行程的資訊，下方有標示從 F1 到 F10 鍵的功能，例如按下 F5 就會以行程樹（process tree）來顯示
+
 ![](https://i.imgur.com/PsfJA6U.png)
