@@ -281,3 +281,188 @@ root:x:0:0:root:/root:/bin/bash
 帳號名稱                                 |_>1000_|一般使用者|
 ```
 [參考資料](https://officeguide.cc/linux-id-command-tutorial-examples/)
+
+
+
+### grep
+Linux grep 命令用於查找文件裡符合條件的字符串。
+
+grep 指令用於查找內容包含指定的範本樣式的文件，如果發現某文件的內容符合所指定的範本樣式，預設grep 指令會把含有範本樣式的那一列顯示出來。若不指定任何文件名稱，或是所給予的文件名為-，則grep 指令會從標準輸入設備讀取數據。
+
+![](https://i.imgur.com/WqAT0kY.png)
+例如在 /etc/os-release 檔案中搜尋 kali 關鍵字
+![](https://i.imgur.com/BXXvh4y.png)
+執行的結果會列出所有含有關鍵字的整行文字。
+
+grep 亦可搭配萬用字元（*）同時搜尋多個檔案，例如在 /etc/ 目錄之下所有 *.conf 檔案中，尋找 network 這個字眼：
+![](https://i.imgur.com/0GNt5Y6.png)
+搜尋多個檔案時，在輸出中會標示資料來源是哪一個檔案。
+
+除了搜尋檔案內容之外，亦可搭配管線（pipe）篩選串流資料，例如篩選出含有 network 關鍵字的檔案名稱：
+![](https://i.imgur.com/X8Qg3eh.png)
+
+[參考資料](https://www.runoob.com/linux/linux-comm-grep.html)
+
+### head/cat/tail
+#### cat
+cat（英文全拼：concatenate）命令用於連接文件並打印到標準輸出設備上。
+
+指定一個檔案，輸出內容
+![](https://i.imgur.com/LEAglzb.png)
+
+[參考資料](https://www.runoob.com/linux/linux-comm-cat.html)
+
+#### head
+head指令會讀取所給予檔案的內容，並將其內容的最前面部份作標準輸出。預設為10行。
+
+看該檔案頭部
+
+![](https://i.imgur.com/fmHIw6U.png)
+
+常用方式:
++ `-c`：--bytes=N 指定輸出開頭的 "N" 個字元組。
++ `-n`：--lines=N 指定輸出開頭的 "N" 行。
++ `-q`： --quiet, --silent 不輸出檔案名稱的標頭。
++ `-v`：一定顯示含有檔案名稱的標頭。
+
+範例：
+
++ 列出fileA最前面10行內容
+
+`head fileA`
+
++ 列出fileA最前面20列內容
+
+`head -n 20 fileA`
+
++ 列出檔案fileA最前面200Bytes內容
+
+`head -c 200 fileA`
+
+#### tail
+看該檔案尾部
+![](https://i.imgur.com/g0JM80F.png)
+常用方式:
+-n N:顯示最後 N 行的訊息 (大寫N 為數字)
+-f:持續讀取檔案，直到按 Ctrl + c 為止 (可觀察檔案持續更新的內容)
+### find 
+指定檔名搜尋
+搜尋時是以整個硬碟裡的資料為主
+![](https://i.imgur.com/ctS9zlM.png)
+### 搜尋
+#### locate 
+搜尋時是以資料庫檔案裡的資料為主
+##### 尋找檔案
+使用 locate 快速尋找系統上的檔案，例如尋找含有 .bashrc 關鍵字的檔案
+![](https://i.imgur.com/3Sq1QAr.png)
+##### 計算數量
+若要計算符合條件的檔案數量，可以加上 -c
+![](https://i.imgur.com/iy0hV4x.png)
+##### 大小寫
+locate 在比對檔案時，預設會區分英文字母的大小寫，若不要區分大小寫，可以加上 -i
+![](https://i.imgur.com/LHrKEgT.png)
+
+#### whereis 
+通常是用來尋找『特定檔案』
+搜尋時是以資料庫檔案裡的資料為主
+用於查找二進位文件、原始碼文件和man手冊，一般文件的定位使用locate命令
+![](https://i.imgur.com/lNok4zh.png)
+
+#### which 
+通常都是用來尋找『執行檔』
+which指令會在環境變數PATH設置的目錄裡查詢符合條件的文件
+![](https://i.imgur.com/9sU78fF.png)
+
+
+比較:http://blog.faq-book.com/?p=1013
+### tar 
+.tar (僅打包，無壓縮)
+打包：
+$ tar cvf FileName.tar DirName路徑名稱
+解包：
+$ tar xvf FileName.tar
+### wget 
+wget 是一個自動檔案下載工具，在大部份的 Linux 系統上都會內建這個指令，其支援各式各樣的下載方式
+#### 基本下載檔案
+![](https://i.imgur.com/OPcA5rw.png)
+#### 指定儲存的檔名
+![](https://i.imgur.com/JTYgBer.png)
+#### 從檔案中讀取網址
+![](https://i.imgur.com/Ismewi2.png)
+
+### ifconfig 
+#### 基本網路介面
+執行 ifconfig 指令不帶任何參數，可以顯示目前主機上已經啟用的網路介面
+![](https://i.imgur.com/X6RAjpz.png)
+若要查看主機上所有的網路介面（包含未啟用的網路介面），可以加上 -a 參數(本環境已全部啟用)
+若要讓 ifconfig 僅顯示簡略的資訊，可以採用 -s 參數
+![](https://i.imgur.com/eRsu0tw.png)
+#### 設定網路 IP 位址、遮罩
+ifconfig 指令也可以用來設定網路介面的 IP 位址與網路遮罩，系統管理者在測試或除錯時很常使用。
+
+ifconfig 設定網路介面 IP 位址與遮罩的語法為：
+
+ifconfig 網路介面 IP位址 netmask 遮罩
+例如將 eth0 網路介面的 IP 位址從10.0.2.15設定為192.168.0.100，網路遮罩設定為 255.255.255.0，則可執行
+![](https://i.imgur.com/v82x6aM.png)
+(範例而已)
+### netstat
+Linux 的 netstat 指令可以用來查詢各種網路相關資訊，檢測各種網路相關的問題。
+
+在 Linux 系統中若要檢查網路相關的問題，netstat 是一個很常使用到的指令之一，雖然他只能在本機執行，但是他可以列出非常多很有用的資訊，像 socket、TCP、UDP、IP 與 ethernet 層的各種資訊都可以利用 netstat 來查詢。
+列出所有連接埠（Port）
+![](https://i.imgur.com/3SA1zsd.png)
+僅列出 TCP 的連接埠：
+netstat -at
+僅列出 UDP 的連接埠：
+netstat -au
+### 列出 Listening 狀態的連接埠
+列出所有 listening 狀態的連接埠：
+netstat -l
+列出所有 listening 狀態的 TCP 連接埠：
+netstat -lt
+列出所有 listening 狀態的 UDP 連接埠：
+netstat -lu
+### 統計數據
+列出各種協定的統計數據：
+netstat -s
+列出 TCP 的統計數據：
+netstat -st
+列出 UDP 的統計數據：
+netstat -su
+如果要顯示應詳細的統計數據，可以再加上 -w 參數：
+netstat -sw
+### ps 
+#### 介紹
+在Linux中我們可以使用ps指令(Process status)來觀察行程(Process)的資訊，當ps指令不加任何選項時，只會顯示該使用者在當次登入時的資訊：
+![](https://i.imgur.com/8MvnC50.png)
+PPID:PPID全名是Parent Process ID，是父行程編號代表該行程編號。
+![](https://i.imgur.com/scofZer.png)
+上圖第二行代表的資訊是ps -f行程，這個行程是由bash行程(PID 312)衍生出來的子行程(PPID 312)，我們可以通常說bash是ps -f的父行程。
+
+ps也可以查看系統行程，我們可以ps指令加上aux選項查看系統行程。
+![](https://i.imgur.com/aaod44Z.png)
+欄位說明
+![](https://i.imgur.com/L2JqGDh.png)
+#### 優先權(nice value)
+在Linux中行程有優先權的設計，順序以-20至19表示，這個數字稱為nice值(nice value)，數字越小表示該行程擁有的優先權越高，數字越大則優先權越低。
+我們可使用"l"參數查看nice值
+![](https://i.imgur.com/PKohyPQ.png)
+### kill刪除程序
+kill能將目前運作的行程刪除，當kill指令送出訊號收到訊號的行程將依本身訊號值決定是否結束，能否結束還要看行程本身
+#### 若要強制結束可使用語法
+kill PID
+#### 使用行程名稱刪除正在執行的行程 
+有時同一程式會同時執行好幾個行程，若使用kill一個一個刪實在太慢也太麻煩了，此時可以使用killall將相同名稱的行桯一次刪除。
+語法：killall 行程名稱
+### htop 
+htop 是另外一個監控工具，他可以顯示每個程式完整的執行參數，或以行程樹（process tree）的方式顯示，若要管理多個行程時，也可以一次選擇多個行程批次處理
+kali裡預設沒有安裝，需要安裝才能使用
+sudo apt-get install htop
+![](https://i.imgur.com/IWqclQO.png)
+執行 htop 指令之後就會開啟監控畫面
+![](https://i.imgur.com/z64hTkE.png)
+可以看到每個 CPU 的使用率(6核心16G記憶體)
+![](https://i.imgur.com/uWqOcQl.png)https://hackmd.io/KoZmL1CvRKmL5ftEDoHgKQ?both#%E5%84%AA%E5%85%88%E6%AC%8Anice-value
+而中間的部份，我們可以使用方向鍵（上、下、左、右）來查看系統上每個行程的資訊，下方有標示從 F1 到 F10 鍵的功能，例如按下 F5 就會以行程樹（process tree）來顯示
+![](https://i.imgur.com/PsfJA6U.png)
