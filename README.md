@@ -224,6 +224,7 @@ Superuser 不受權限規範
 chmod 可接受〝數字表示法〞(Numberic representation)和〝符號表示法〞(Textual representation),這兩種用法的使用者比例旗鼓相當。數字表示法比較簡短,但如非工科的人員可能會對〝十進制轉二進制〞感到頭大,而符號表示法寫起來可能比較冗長。
 
 ![image](https://user-images.githubusercontent.com/96654161/180779641-91a5d45d-d895-4ca1-bfb0-107b8107a458.png)
+
 ![image](https://user-images.githubusercontent.com/96654161/180779707-5276395b-f886-4930-8dcb-c4e267da5e9e.png)
 
 [資料參考](https://www.hy-star.com.tw/tech/linux/permission/permission.html#dir_permission)
@@ -247,7 +248,8 @@ Linux 登入的時候實際上有兩個身份,一個是登入者(user)另一是�
 #### Password
 這個欄位會用 x 字元代替加密的密碼，而加密的密碼儲存在 /etc/shadow 檔案內。
 
-### id 指令可以用來查詢使用者帳號 ID 與各群組 ID 資訊：
+### id 指令可以用來查詢使用者帳號 ID 與各群組 ID 資訊
+
 當建立使用者時，會指定使用者 ID 與預設群組 ID，這個使用者 ID 與群組 ID 就是所謂的真實使用者 ID（Real UID，即 RUID）與真實群組 ID（Real GID，即 RGID）。
 
 由於 Linux 系統上的行程可以用其他的使用者或群組權限來執行，所以當程式在執行時可能會以其他的使用者身分來執行，這就是有效使用者 ID（Effective UID，即 EUID）與有效群組 ID（Effective Group ID，即EGID）。在大部分的狀況下，真實與有效的 UID 與 GID 會是一樣的。
@@ -315,14 +317,17 @@ grep 亦可搭配萬用字元（*）同時搜尋多個檔案，例如在 /etc/ �
 
 ### head/cat/tail
 #### cat
+
 cat（英文全拼：concatenate）命令用於連接文件並打印到標準輸出設備上。
 
 指定一個檔案，輸出內容
+
 ![](https://i.imgur.com/LEAglzb.png)
 
 [參考資料](https://www.runoob.com/linux/linux-comm-cat.html)
 
 #### head
+
 head指令會讀取所給予檔案的內容，並將其內容的最前面部份作標準輸出。預設為10行。
 
 看該檔案頭部
@@ -355,6 +360,7 @@ tail 命令可用於查看文件的內容，有一個常用的參數-f常用於�
 tail -f filename會把filename 文件裡的最尾部的內容顯示在屏幕上，並且不斷刷新，只要filename 更新就可以看到最新的文件內容。
 
 看該檔案尾部
+
 ![](https://i.imgur.com/g0JM80F.png)
 
 常用方式:
@@ -365,6 +371,7 @@ tail -f filename會把filename 文件裡的最尾部的內容顯示在屏幕上�
 [參考資料](https://www.runoob.com/linux/linux-comm-tail.html)
 
 ### find 
+
 find 的 -type 參數可以指定檔案的類型，常用的選項有：
 
 + `d`：目錄。
@@ -412,11 +419,13 @@ locate 在比對檔案時，預設會區分英文字母的大小寫，若不要�
 ![](https://i.imgur.com/LHrKEgT.png)
 
 ### whereis 
+
 該指令會在特定目錄中查找符合條件的文件。這些文件應屬於原始代碼、二進製文件，或是幫助文件。
 
 該指令只能用於查找二進製文件、源代碼文件和man手冊頁，一般文件的定位需使用locate命令。
 
 ![](https://i.imgur.com/lNok4zh.png)
+
 [參考資料](https://www.runoob.com/linux/linux-comm-whereis.html)
 
 ### which 
@@ -432,15 +441,17 @@ which指令會在環境變量$PATH設置的目錄裡查找符合條件的文件�
 
 ## 解壓縮
 ![image](https://user-images.githubusercontent.com/96654161/180784999-1171547e-b596-4052-b3d7-1690ecbe8a8f.png)
+
 [參考資料](https://michael-hsu.medium.com/linux-%E5%A3%93%E7%B8%AE%E8%88%87%E6%89%93%E5%8C%85%E6%8C%87%E4%BB%A4-tar-zip-gz-bz2-xz-77ab131c2cc3)
 
 ### tar 
 tar 是用來建立，還原備份文件的工具程序，它可以加入，解開備份文件內的文件。
 
-# 打包當前資料夾下所有檔案 
-$ tar cvf example.tar . 
-# 解包 
-$ tar xvf example.tar
++ 打包當前資料夾下所有檔案 
+`tar cvf example.tar . `
++ 解包 
+` tar xvf example.tar`
+
 [資料參考](https://www.runoob.com/linux/linux-comm-tar.html)
 
 ### wget 
@@ -608,6 +619,7 @@ kill PID
 
 ## htop 
 htop 是另外一個類似 top 的監控工具，它的功能與操作介面比 top 更完整，可以顯示每個程式完整的執行參數，或以行程樹（process tree）的方式顯示，若要管理多個行程時，也可以一次選擇多個行程批次處理。
+
 ![image](https://user-images.githubusercontent.com/96654161/180788000-835918d7-0099-4a16-a776-7d42ab8609d7.png)
 
 kali裡預設沒有安裝，需要安裝才能使用
