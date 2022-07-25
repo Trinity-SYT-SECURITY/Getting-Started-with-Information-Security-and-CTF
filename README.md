@@ -171,18 +171,18 @@ rm -rf /*
 
 最典型的程式會將程式執行的結果輸出在螢幕上（也就是說標準輸出預設就是螢幕），而我們可以使用 `>` 這個重新導向的運算子，將程式的標準輸出導向檔案，這樣輸出的訊息內容就會被儲存在檔案中，其用法為：
 
-+ `ls > output.txt`
+ `ls > output.txt`
 這樣就會把` ls `指令的輸出儲存至 `output.txt `檔案中，而執行這行指令時，螢幕上就不會有其他的輸出了。
 
 如果 output.txt 這個檔案不存在的話，就會自動建立這個檔案，並把資料寫入其中。但若是這個檔案已經存在了，系統會把它的內容先清空，再將 `ls` 的輸出儲存進去，所以如果原本 `output.txt` 檔案中存在有舊的資料，就會全部被清掉。
 
-+ `date >> output.txt`
+ `date >> output.txt`
 
 這樣一來，他就會在 output.txt 檔案中，於原本的 ls 輸出之後，再加上一行日期資訊。
 
 若程式發生錯誤時，錯誤訊息預設也是會輸出在螢幕上（標準錯誤輸出預設為螢幕），例如：
 
-+ `ls non_exist > output.txt`
+ `ls non_exist > output.txt`
 這裡我們使用 ls 查看一個不存在的檔案，讓它產生錯誤，執行之後會在螢幕上看到一行錯誤訊息：
 
 `ls: non_exist: No such file or directory`
@@ -191,7 +191,7 @@ rm -rf /*
 
 如果我們想要把程式的錯誤訊息導入檔案，可以使用 > 運算子，把標準錯誤輸出（2）導至指定的檔案：
 
-+ `ls non_exist &> output.txt`
+ `ls non_exist &> output.txt`
 
 要把兩個程式的輸入與輸出串接起來，就可以使用管線（pipe）。
 
@@ -214,14 +214,27 @@ rm -rf /*
 Superuser 不受權限規範
 因 Linux 是多人多工(multi-tasking,multi-user)的作業系統,也就是可很多人使用,所以一定要有某種機制來適當的隔離不同登入者檔案的讀、寫、執行和刪除,甚至是進入某個目錄,這種安全機制就是檔案的〝擁有者〞(ownership)和〝權限〞(permission)。
 
-Linux 的檔案的擁有者類別可分〝user 或 owner〞(擁有者)、〝group〞(群組)和〝other〞(其他)各如下:
+目錄的權限和檔案的權限功能有些不一樣,如下表:
+![image](https://user-images.githubusercontent.com/96654161/180779209-8e4b5b55-7a5f-4a43-97e7-26fe970ed949.png)
+
+指令 `chmod (change mode)`可改變檔案和目錄的權限和特殊權限,只有該檔的擁有者和〝root〞有權去更動其權限。
+
+chmod 可接受〝數字表示法〞(Numberic representation)和〝符號表示法〞(Textual representation),這兩種用法的使用者比例旗鼓相當。數字表示法比較簡短,但如非工科的人員可能會對〝十進制轉二進制〞感到頭大,而符號表示法寫起來可能比較冗長。
+
+![image](https://user-images.githubusercontent.com/96654161/180779641-91a5d45d-d895-4ca1-bfb0-107b8107a458.png)
+![image](https://user-images.githubusercontent.com/96654161/180779707-5276395b-f886-4930-8dcb-c4e267da5e9e.png)
+
+[資料參考](https://www.hy-star.com.tw/tech/linux/permission/permission.html#dir_permission)
+
 #### user 擁有者
 預設的情況,檔案由那一帳號建立的,誰就是那檔案的使用者 (user )和擁有者(owner),故 user 也叫 owner,而只有檔案的擁有者和〝root〞,可自由的更改其權限。
+
 #### group 群組
 一至多個使用者帳號者可組成一團體即 group (群組),可類比為公司的部門或學校的班級或社團等,要怎麼組成一群組可自行規劃。當然也可一個帳號同時加入多個群組,檔案/目錄若屬某一群組所有,可設定若干的群組管理來規範。通常新建一帳號時會同時建立一個和帳號同名的群組,如想知自己的群組帳號名稱可用指令 groups 來查詢。
-other 其他
-沒規範在 owner 和 grouop 的都算是〝other〞(其他)。
+other 其他沒規範在 owner 和 grouop 的都算是〝other〞(其他)。
+
 Linux 登入的時候實際上有兩個身份,一個是登入者(user)另一是伴隨登入者的群組(group),而如有建立檔案,此檔會記錄這兩個身份。
+
 ![](https://i.imgur.com/0xgO2Mk.png)
-(前面的osboxes士user 後面的士group)
+> 前面的osboxes士user 後面的士group
 
