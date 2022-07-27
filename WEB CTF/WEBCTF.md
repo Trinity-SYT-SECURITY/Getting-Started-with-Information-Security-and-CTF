@@ -265,3 +265,74 @@ Dictionary attack definition 入侵者試圖通過企業和個人使用的常用
 找出長度差比較多的
 
 > picoCTF{3v3ry1_l0v3s_c00k135_064663be}
+
++ [Pico CTF Local Authority](http://saturn.picoctf.net:49699/)
+
+觀察到網站HTML
+
+![image](https://user-images.githubusercontent.com/96654161/181267199-d73103d3-f4d3-48c2-b505-64d3ab057a96.png)
+
+其中的login.php值得我們關注
+
+網址後加上login.php會看到以下javascript內容
+
+```Java=
+
+      function filter(string) {
+        filterPassed = true;
+        for (let i =0; i < string.length; i++){
+          cc = string.charCodeAt(i);
+          
+          if ( (cc >= 48 && cc <= 57) ||
+               (cc >= 65 && cc <= 90) ||
+               (cc >= 97 && cc <= 122) )
+          {
+            filterPassed = true;     
+          }
+          else
+          {
+            return false;
+          }
+        }
+        
+        return true;
+      }
+    
+      window.username = "admin";
+      window.password = "admin";
+      
+      usernameFilterPassed = filter(window.username);
+      passwordFilterPassed = filter(window.password);
+      
+      if ( usernameFilterPassed && passwordFilterPassed ) {
+      
+        loggedIn = checkPassword(window.username, window.password);
+        
+        if(loggedIn)
+        {
+          document.getElementById('msg').innerHTML = "Log In Successful";
+          document.getElementById('adminFormHash').value = "2196812e91c29df34f5e217cfd639881";
+          document.getElementById('hiddenAdminForm').submit();
+        }
+        else
+        {
+          document.getElementById('msg').innerHTML = "Log In Failed";
+        }
+      }
+      else {
+        document.getElementById('msg').innerHTML = "Illegal character in username or password."
+      }
+    
+```
+
+本文檔中還引用了另外三個文件：style.css、 admin.php和secure.js
+
+查看到來源頁面
+
+![image](https://user-images.githubusercontent.com/96654161/181269575-e905446b-f56b-47c2-be26-c065b88be9b0.png)
+
+帳密就寫在裡面，再回去登入就有嘞
+
+![image](https://user-images.githubusercontent.com/96654161/181269727-d2d2ed70-e68d-46ee-8acc-bb50fb0dcfb7.png)
+
+>picoCTF{j5_15_7r4n5p4r3n7_05df90c8}
