@@ -189,3 +189,79 @@ Git 是一個版本控制系統 (VCS)，主要用於在 Web 開發過程中跟�
 
 > FLAG{Wow, how did you found me? I was hidden!}
 
+
+### Javascript
+
++ [Pico CTF login](https://login.mars.picoctf.net/)
+
+網站原始碼中有寫個路徑
+>https://login.mars.picoctf.net/index.js
+
+![image](https://user-images.githubusercontent.com/96654161/181256208-aae8278d-325f-405a-ae06-c87cda6947a0.png)
+
+查看後發現有個base64編碼的字串
+
+![image](https://user-images.githubusercontent.com/96654161/181256008-5fcb666e-9ebb-47d5-8022-0a8bc2fc1e9c.png)
+
+拿去解碼後
+
+![image](https://user-images.githubusercontent.com/96654161/181256128-8aec3893-3ba2-46b6-a55f-a6073608bb5c.png)
+
+### [Hash、base64](https://dotblogs.com.tw/daniel/2019/05/06/223004)
+
+![image](https://user-images.githubusercontent.com/96654161/181257296-6b999370-bfb1-414c-a73f-5fb9a1f8d17e.png)
+
+編碼是將原本的資料經過一個運算轉換成另一組資料,如果要還原成原本資料解碼
+
+加密可以確保資料的安全性（只有相同的Key才可還原成原本資料）很適合用在機密資料且須要還原使用
+
+![image](https://user-images.githubusercontent.com/96654161/181257500-122c4746-8ba0-4c8d-8104-3c4699c50fbd.png)
+
+Hash有幾個特點
+
++ 不管資料量多大經過SHA256運算字串長度都是一樣的
++ SHA256的原因是運算完的資料大小一定是 256 bit
++ 他是一個不可逆的算法
++ 相同的值用SHA運算過後值都是一樣的
+
+一般我們可以把使用者密碼經Hash運算存入資料庫中,當作使用唯一識別碼(像指紋)下次使用者登入用運一樣的Hash算法 再將值拿來比較辨識使用者合法性.
+
+![image](https://user-images.githubusercontent.com/96654161/181258066-0c3d6298-b330-4fb0-bb8f-99c0281bd41f.png)
+
+![image](https://user-images.githubusercontent.com/96654161/181258226-3bde436c-b34c-435a-82b4-55cd83986ca7.png)
+
+
+### BruteForce / Dictionary Attack
+
+Brute-force attack 利用自動化軟件測試大量可能的組合來解碼密碼、個人識別碼 (PIN) 和其他形式的登錄數據
+
+Dictionary attack definition 入侵者試圖通過企業和個人使用的常用單詞和短語的“字典列表”破解受密碼保護的安全系統
+
+攻擊系統最簡單的方法是通過前門，並且必須有某種登錄方式。如果您有憑據，則可以像普通用戶一樣登錄，可能不會生成可疑的日誌條目，從而觸發 IDS簽名，或需要未修補的漏洞。如果您擁有系統管理員的憑據，生活會更加輕鬆。
+
++ Pico CTF Local Authority
+
+這裡設定要從多少爆破到多少數字的 cookie
+![image](https://user-images.githubusercontent.com/96654161/181264765-ca8275e5-5ba8-46d1-b56a-cf7e743ea852.png)
+
+
+設定要找出的flag格式
+
+![image](https://user-images.githubusercontent.com/96654161/181264366-d0a1b222-4c04-4d57-a67b-63aa9ed84b22.png)
+
+這裡一定要改always
+
+![image](https://user-images.githubusercontent.com/96654161/181264450-f4e3dde9-216a-4cb6-8a77-3310812bb959.png)
+
+
+先用burp抓需要的資料
+
+![image](https://user-images.githubusercontent.com/96654161/181261111-811d5dd2-5c8e-4a7f-a5fe-ef769a0a0644.png)
+
+再用暴力破解找出cookie
+
+![image](https://user-images.githubusercontent.com/96654161/181264072-116227af-b7cf-4776-a66e-2ffe6dd54d06.png)
+
+找出長度差比較多的
+
+> picoCTF{3v3ry1_l0v3s_c00k135_064663be}
